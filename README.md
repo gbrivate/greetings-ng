@@ -29,6 +29,6 @@ Ao rodar os testes, você perceberá que o código está quebrado, o objetivo é
 
 ###Nota
 
-Se você estiver interessado em participar como desenvolvedor Java, você pode fazer o teste de ng no link: [jxsubscribe](https://github.com/cinqtechnologies/jxsubscribe).
+Se você estiver interessado em participar como desenvolvedor Java, você pode fazer o teste no link: [jxsubscribe](https://github.com/cinqtechnologies/jxsubscribe).
 
 **Boa sorte! ;)**
