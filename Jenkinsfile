@@ -52,6 +52,28 @@ pipeline {
         }
       }
     }
+    stage('Build develop release') {
+          when {
+            branch 'develop'
+          }
+          steps {
+            container('nodejs') {
+
+              // ensure we're not on a detached head
+              sh "git checkout develop"
+              sh "git config --global credential.helper store"
+              sh "jx step git credentials"
+
+              // so we can retrieve the version in later steps
+              sh "echo \$(jx-release-version) > VERSION"
+              sh "jx step tag --version \$(cat VERSION)"
+              sh "npm install"
+              sh "CI=true DISPLAY=:99 npm test"
+              sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
+              sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
+            }
+          }
+        }
     stage('Promote to Environments') {
       when {
         branch 'master'
@@ -70,6 +92,25 @@ pipeline {
         }
       }
     }
+    stage('Promote to Dev Environments') {
+          when {
+            branch 'develop'
+          }
+          steps {
+            container('nodejs') {
+              dir('./charts/greetings-ng') {
+                sh "jx step changelog --version v\$(cat ../../VERSION)"
+
+                // release the helm chart
+                sh "jx step helm release"
+
+                // promote through all 'Auto' promotion Environments
+                sh "jx promote -b --env=develop --timeout 1h --version \$(cat ../../VERSION)"
+              }
+            }
+          }
+        }
+
   }
   post {
         always {
