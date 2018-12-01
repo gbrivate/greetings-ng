@@ -65,7 +65,7 @@ pipeline {
               sh "jx step git credentials"
 
               // so we can retrieve the version in later steps
-              sh "echo dev-\$(jx-release-version) > VERSION"
+              sh "echo \$(jx-release-version) > VERSION"
               sh "jx step tag --version \$(cat VERSION)"
               sh "npm install"
               sh "CI=true DISPLAY=:99 npm test"
