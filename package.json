@@ -5,8 +5,10 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080 --disable-host-check",
     "build": "ng build",
+    "build_prod": "ng build --prod ",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prod": "npm run build_prod"
   },
   "private": true,
   "dependencies": {
