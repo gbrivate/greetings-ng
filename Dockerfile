@@ -7,6 +7,4 @@ ENV PORT 8080
 EXPOSE 8080
 
 
-WORKDIR /usr/share/nginx/html
-
-COPY dist/ .
+COPY dist/* /usr/share/nginx/html
